@@ -1,0 +1,39 @@
+
+<div class="ui header">
+    热门用户
+</div>
+<div class="ui vertical menu popusers">
+  <div class="item">
+      {% for popuser in popusers %}
+
+		<a href="/user/{{ popuser.id}}" class="popuser">
+			<img class="ui inline image" src="{{popuser.get_profile.get_mugshot_url}}">
+		</a>
+{#		{ % include page="/popup_usercard/${popuser.id }" flush="true"></jsp:include>#}
+
+      {% endfor%}
+	<!-- end popup -->
+
+	
+  </div>
+</div>
+	
+<!-- end menu -->	
+
+<div class="ui header">
+    热门标签
+</div>
+<div class="ui vertical menu poptags">
+    {% for poptag in poptags %}
+
+	  <a href="<c:url value='/tag/${poptag.id }' />" target="_blank" />
+		  <div class="tagitem" style="background: url(${img_base_url}${poptag.cover }?imageView2/1/w/255/h/80)">
+		  	<div class="mask"></div>
+		  	<div class="tag">
+		  		# {{poptag.tag }}
+		  	</div>
+		  </div>
+	  </a>
+  {% endfor %}
+</div>					
+  

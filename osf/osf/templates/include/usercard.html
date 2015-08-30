@@ -1,0 +1,53 @@
+
+	            <div class="ui card">
+	              <div class="ui small centered circular  image">
+	                <a href="/user/{{ u.id }}"><img src="{{u.get_profile.get_mugshot_url}} "></a>
+	              </div>
+	              <div class="content">
+	                <a class="header centered" href="/user/{{ u.id }}">
+	                	{{ u.username }}
+	                </a>
+	                <div class="meta centered" >
+	                  <span class="date">不想成为画家的黑客不是好摄影师aa</span>
+	                </div>	                
+					<div class="ui mini statistics">
+					  <div class="statistic">
+					    <div class="value">
+					      <a href="/followers">{{counter.follower }}</a>
+					    </div>
+					    <div class="label">粉丝
+					    </div>
+					  </div>
+					  <div class="statistic">
+					    <div class="value">
+					      <a href="/followings">{{counter.following }}</a>
+					    </div>
+					    <div class="label">关注
+					    </div>
+					  </div>
+					  <div class="statistic">
+					    <div class="value">
+					      <a href="#">{{counter.spost }}</a>
+					    </div>
+					    <div class="label">状态
+					    </div>
+					  </div>
+					</div>	<!-- end statistics --> 
+					
+					               
+	              </div>
+	              <div class="extra content">
+	              	{% if request.user.is_authenticated %}
+                        {% ifnotequal request.user.id  u.id %}
+
+	              		{% if follow %}
+			              		<div class="mini ui basic button follow" following="{{ u.id }}">已关注</div>
+			              {% else %}
+								<div class="mini ui yellow button follow" following="{{ u.id}}">+关注</div>
+                        {% endif %}
+						{% endifnotequal %}
+					{% else %}
+						<div class="mini ui yellow button follow" following="{{ u.id }}">+关注</div>
+					{% endif %}
+	              </div>
+	            </div> 

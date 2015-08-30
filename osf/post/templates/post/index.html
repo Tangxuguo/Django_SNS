@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="type" content="post">
+	<meta name="id" content="{{post.id }}">
+	<meta name="author" content="{{post.author }}">
+    {% if request.user.is_authenticated %}
+	<meta name="isLogin" content="true"/>
+{% else %}
+	<meta name="isLogin" content="false"/>
+{% endif %}
+
+	<title>{{post.title }}</title>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+	<style>
+	.post img{
+		max-width: 620px;
+	}
+	</style>
+	
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/semantic.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/basic.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/code.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/comment.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/post.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/follow.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/login.js"></script>
+</head>
+<body>
+	
+	{%include "./include/topbar.html"%}
+    {%include "./include/login_modal.html"%}
+	<div class="container">
+		<div class="row">
+			<div class="span8 offset2">
+
+						<div class="post" id="post{{ post.id }}">
+							<div class="header">
+								{{post.title }}
+							</div>
+							<div class="date">
+								<i class="wait icon"></i><span>{{ post.ts }}</span>
+							</div>
+							<div class="meta">
+								<div class="author">
+									<a href="/accounts/{{u.username }}">
+										<img class="ui avatar image" src="{{ u.get_profile.get_mugshot_url }}">
+									</a>
+									<span>{{ u.username }}</span>
+									{% if request.user.is_authenticated %}
+                                        {% ifnotequal request.user.id  u.id %}
+
+                                            {% if follow %}
+                                                    <div class="mini ui basic button follow" following="{{ u.id }}">已关注</div>
+                                              {% else %}
+                                                    <div class="mini ui yellow button follow" following="{{ u.id}}">+关注</div>
+                                            {% endif %}
+                                        {% endifnotequal %}
+                                    {% else %}
+                                    <div class="mini ui yellow button follow" following="{{ u.id }}">+关注</div>
+                                    {% endif %}
+								</div>
+								<div class="tags">
+                                    {% for tag in post.tags.all %}
+										<a class="ui label" href="/tag/{{ tag.id }}">{{tag.name }}</a>
+									{% endfor %}
+								</div>
+							</div>
+							<p>
+                                 {% autoescape off%}
+                    {{post.content }}
+                    {% endautoescape %}
+
+							</p>
+
+						</div>
+						<div>
+							<div class="action">
+								<div class="ui circular icon basic button">						
+								  <i class="share alternate icon"></i>	
+								</div>							
+								<div class="ui circular orange icon button">
+								  <i class="weibo icon" id="weiboshare"></i>
+								</div>
+								<div class="ui circular blue icon button">
+								  <i class="qq icon" id="qqshare"></i>
+								</div>
+								<div class="ui circular green icon button">
+								  <i class="wechat icon" id="wechatshare"></i>
+								</div>	
+								<div class="ui circular icon basic button post like">
+                                    {% if is_like %}
+                                    <i class="red heart icon" id="like"></i>
+                                    {% else %}
+
+								  	<i class="empty red heart icon" id="like"></i>
+								   {% endif %}
+								</div>
+                                {% ifequal request.user.id u.id %}
+
+								<div class="ui circular icon basic button post trash">
+									<i class="trash outline icon"></i>
+								</div>
+								{% endifequal %}
+							</div>
+						</div>
+					</div>
+		</div>
+	</div>
+	
+	<!--  -->
+	<div class="comments">
+		<div class="container">
+			<div class="row">
+				<div class="span8 offset2">
+					<div class="ui comments" id="comments">
+						  <div id="replyarea">
+							  <form class="ui reply form" id="replyform">
+							    <div class="field">
+							      <textarea id="replycontent"></textarea>
+							    </div>
+								<div class="ui tiny primary button" id="replybtn">
+								  评论
+								</div>							    
+							  </form>								
+						  </div>
+{#						  {% url 'comment.views.post' post.id %}#}
+                        {% include './comment/index.html' %}
+{#						  	{%  "/comment/post/" %}#}
+{#						  <jsp:include page="/comment/post/${post.id }"></jsp:include>				  	#}
+						  
+					  </div>
+					  <!-- comment list -->					
+					</div>
+				</div>
+
+			 </div>
+		</div>
+		<!-- end comment -->
+	</div>
+	{% include "./include/trash_tip.html" %}
+</body>
+</html>

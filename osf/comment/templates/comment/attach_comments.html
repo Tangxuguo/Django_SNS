@@ -1,0 +1,52 @@
+	<!-- <div class="comments-attach"> -->
+	 		<div class="ui divider"></div>
+			<div class="ui middle aligned list">
+			  <div class="item" style="margin-bottom: 20px;margin-top: 14px">
+			    <div class="content">
+					<div class="ui fluid mini action input">
+					  <input type="text">
+					  <div class="ui blue button reply">评论</div>
+					  <div class="ui button cancle" style="margin-left: 10px">取消</div>
+					</div>
+			    </div>
+			  </div>
+			  
+			  {% for comment in comments %}
+
+				  <div class="item">
+                    {%if request.user.is_authenticated %}
+                        {% ifnotequal comment.author.id request.user.id %}
+
+
+						    <div class="right floated content actions">
+						      <a class="reply" object_id="{{comment.object_id }}" 
+						      reply_to_author="{{comment.author.id }}"
+						      reply_to_authorname="{{comment.author.username }}"
+						      object_type={{comment.object_type  }} 
+						      parent={{comment.id }}>回复</a>
+						    </div>
+				    	{% endifnotequal%}
+				    {% endif %}
+				    <img class="ui avatar image" src="{{comment.author.get_profile.get_mugshot_url }}">
+					<div class="content">
+                        {% if comment.parent %}
+                        <a class="author" href="/user/{{comment.author.id }}">{{comment.author.username }}</a> 回复 <a class="author" href="/user/{{comment.parent_author.id }}">{{comment.parent_author.username }}</a>
+
+                        {% else %}
+					    	<a class="author"  href="/user/{{comment.author.id }}">{{comment.author.username }}</a>
+					    {% endif %}
+					    <div class="metadata">
+	      <span class="date">{{comment.ts }}</span>
+	    </div>
+	    <div class="text commentContent">
+	      <p>{{comment.content }}</p>
+	    </div>
+					 </div>
+					 <!-- end content -->
+				  </div>
+	
+				  <div class="ui divider"></div>	
+			  {% endfor %}
+			</div>   	
+<!-- 	   </div> -->
+	   <!-- end attach -->  

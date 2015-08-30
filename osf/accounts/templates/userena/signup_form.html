@@ -1,0 +1,64 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+
+    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/basic.js"></script>
+    <script src="{{ STATIC_URL }}js/code.js"></script>
+    <script src="{{ STATIC_URL }}js/register.js"></script>
+</head>
+<body>
+{% include "./include/topbar.html" %}
+<div class="container">
+    <div class="row">
+        <div class="span8 offset2">
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="ui header">注册</div>
+                    <div class="ui divider"></div>
+                    <div class="row">
+                        <div class="span4 offset2">
+                            <div class="registerarea">
+                                <div class="ui form">
+                                    {{ form.non_field_errors }}
+                                    {% for field in form %}
+
+                                        {% comment %} Displaying checkboxes differently {% endcomment %}
+                                        {% if field.name == 'tos' %}
+                                            <p class="checkbox">
+                                                <label for="id_{{ field.name }}">{{ field }} {{ field.label }}</label>
+                                            </p>
+                                        {% else %}
+                                            <div class="field">
+                                                <label for="id_{{ field.name }}" >{{ field.label_tag }}{{ field.errors }}</label>
+                                                {{ field }}
+                                             </div>
+                                        {% endif %}
+                                    {% endfor %}
+ <input class="ui green button" type="submit" value="注册" />
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

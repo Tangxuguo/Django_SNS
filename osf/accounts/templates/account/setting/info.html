@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>个人信息</title>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">	
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+	
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/basic.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/code.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/setting.js"></script>
+</head>
+<body>
+{% include "./include/topbar.html" %}
+	<div class="container">
+		<div class="row">
+			<div class="span4">
+				<div class="ui vertical menu">
+				  <a class="active teal item" href='/account/setting/info' >
+				    个人信息
+				  </a>
+				  <a class="item" href='/account/setting/avatar'>
+				    头像
+				  </a>
+				  <a class="item" href='/account/setting/security'>
+				    账户安全
+				  </a>
+				</div>
+			
+			</div>
+			<div class="span8">
+				<div class="ui header">
+					个人信息
+				</div>
+				<div class="ui divider">
+				
+					<div class="ui form setting info">
+					    <div class="inline disabled field">
+					      <label>用户名</label>
+					      <input type="text" id="user_name" placeholder="{{request.user.username }}">
+					      <span id="user_name_tip" style="color: red"></span>
+					    </div>
+					    <div class="inline disabled field">
+					      <label>签名</label>
+					      <textarea id="user_desc" plcaeholder="">{{request.get_profile.user_desc }}</textarea>
+					    </div>
+					    <div class="inline field">
+					   		<label for="#"></label>
+					    	<div class="ui tiny button modify" id="info_save">修改</div>
+					    	<div class="ui tiny basic button cancle" id="info_cancle">取消</div>
+					    </div>
+
+					</div>
+					<!-- end form -->			
+				</div>
+				
+			</div>
+		</div>
+	
+	</div>
+</body>
+</html>

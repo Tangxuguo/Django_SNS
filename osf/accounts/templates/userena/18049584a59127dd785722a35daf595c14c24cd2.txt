@@ -1,0 +1,35 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Reset password" %}{% endblock %}
+
+{% block content %}
+
+    <form action="" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="ui header">{% trans "Reset Password" %}</div>
+                    <div class="ui divider"></div>
+                    <div class="row">
+                        <div class="loginarea span4 offset2">
+                            <div class="ui form">
+                                {{ form.non_field_errors }}
+                                {% for field in form %}
+                                        <div class="field">
+                                            <label for="id_{{ field.name }}" > {{ field.label_tag }}{{ field.errors }}</label>
+                                            {{ field }}
+                                        </div>
+                                {% endfor %}
+                                <input class="ui green button"  type="submit" value="{% trans "Send password" %}" />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="field">
+
+                </div>
+
+            </form>
+
+
+{% endblock %}

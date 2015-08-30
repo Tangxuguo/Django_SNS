@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>通知</title>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+
+  <script src="{{ STATIC_URL }}js/jquery.js"></script>
+  <script src="{{ STATIC_URL }}js/semantic.js"></script>
+  <script src="{{ STATIC_URL }}js/basic.js"></script>
+  <script src="{{ STATIC_URL }}js/code.js"></script>
+
+</head>
+<body>
+	{% include "./include/topbar.html" %}
+	<div class="container">
+		<div class="row">
+			<div class="span4">
+				<div class="ui vertical menu">
+				  <a class="item" href="/notifications/comment" >
+				  	评论
+				    <div class="ui red label">{{notifications.comment }}</div>
+				  </a>
+				  <a class="active teal item" href="/notifications/like">
+				   	喜欢
+				   	<div class="ui red label">{{notifications.like }}</div>
+				  </a>
+				  <a class="item" href="/notifications/follow">
+				    关注
+				    <div class="ui red label">{{notifications.follow }}</div>
+				  </a>
+				  <a class="item" href="/notifications/system">
+				    系统消息
+				    <div class="ui red label">{{notifications.system }}</div>
+				  </a> 
+				</div>
+			
+			</div>
+			<!-- end span4  -->
+			
+			<div class="span6">
+				<div class="ui secondary menu">
+				    <a class="item active" data-tab="notread">未读</a>
+				    <a class="item" data-tab="read">已读</a>
+				  </div>
+				  <div class="ui tab  active" data-tab="notread">
+						<div class="ui relaxed list">
+                            {% for notification in notis %}
+							{% ifequal notification.notify_type dic.notify_type_like %}
+
+								  <div class="item">
+								    <img class="ui avatar image" src="{{notification.notifier_avatar }}">
+								    <div class="content">
+								      <a class="header" href="/user/{{notification.notifier }}">{{notification.notifier_name }}</a>
+								      {% ifequal  notification.object_type dic.object_type_post %}
+
+								      	<div class="description">喜欢了你的文章:<a href="/post/{{notification.object_id }}" ><b>{{notification.object_title }}</b></a> {{notification.ts }}</div>
+								      {% endifequal %}
+                                    {% ifequal  notification.object_type dic.object_type_album %}
+
+								      	<div class="description">喜欢了你的
+								      		<a href="/album/{{notification.object_id }}/photos" >
+								      			<b>
+                                                    {% if notification.object_title  %}
+                                                    {{notification.object_title }}
+                                                    {% else %}
+								      					相册
+								      				{% endif %}
+								      			</b>
+								      		</a> {{notification.ts }}
+								      	</div>
+								      {% endifequal %}
+                                    {% ifequal  notification.object_type dic.OBJECT_TYPE_SHORTPOST %}
+
+								      	<div class="description">喜欢了你的状态:
+
+								      			<b>
+                                                    {% if notification.object_title  %}
+                                                    {{notification.object_title }}
+                                                    {% endif %}
+								      			</b>
+								      		 {{notification.ts }}
+								      	</div>
+								      {% endifequal %}
+								    </div>
+								  </div>	
+							 {% endifequal %}
+
+							{% endfor %}
+						</div>
+				  </div>
+				  <div class="ui tab " data-tab="read">
+				    5
+				  </div>
+						
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.menu .item').tab()
+	});
+	</script>
+</body>
+</html>

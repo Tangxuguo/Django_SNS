@@ -1,0 +1,51 @@
+# IDE
+#
+.idea/
+./osf/osf/settings.py.bk
+
+
+# python
+*.pyc
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+ 
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vim
+#####################
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# Swap files
+###################
+*.swo
+*.swp
+
+# Auth
+#############
+github/auth.conf
+
+# SQL
+*.sqlite3
+
+# output
+output

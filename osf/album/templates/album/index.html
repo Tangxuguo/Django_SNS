@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="type" content="photo">
+	<meta name="id" content="">
+	{% if request.user.is_authenticated %}
+		<meta name="isLogin" content="true"/>
+	{% else %}
+		<meta name="isLogin" content="false"/>
+	{% endif %}
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+
+	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/semantic.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/basic.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/code.js"></script>
+	<%-- <script type="text/javascript" src="{{ STATIC_URL }}js/album.js"></script> --%>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/comment.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/follow.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}js/login.js"></script>
+
+</head>
+<body>
+	{% include "./include/topbar.html" %}
+    {% include "./include/login_modal.html" %}
+	<div class="container">
+		<div class="row">
+			<div class="span8">
+				<div id="imgcontainer">
+					<img src="" alt="" id="mainimg" class="ui centered image"> 
+				</div>
+			</div>
+			<div class="span4">
+				<div id="rightside">
+					<div class="album metas">
+						<div class="meta author">
+							<a href="/user/{{u.id }}"><img class="ui avatar image" src="{{ u.get_profile.get_mugshot_url }}"></a>
+							<span>{{u.username }}</span>
+							{% if request.user.is_authenticated %}
+                                {% ifnotequal request.user.id u.id %}
+								{% if follow %}
+									
+										<span class="ui tiny basic button follow" following="{{u.id }}">已关注</span>
+								{% else %}
+										<span class="ui inverted tiny yellow button follow" following="{{u.id }}">+关注</span> 
+                                {% endif %}								
+								{% endifnotequal %}						
+							{% else %}
+								<span class="ui inverted tiny yellow button follow" following="{{u.id }}">+关注</span> 
+							{% endif %}
+						</div>
+						
+						<div class="ui tiny images meta" id="imgbox">
+                            {% for photo in album.photos.all %}
+								<a href="#"><img src="{{img_base_url}}{{ photo.key }}{{album_thumbnail }}" alt="" id="preview_photo_{{photo.id }}"></a>
+							{% endfor %}
+						</div>
+						<div class="meta tags">
+                            {% for tag in album.tags.all %}
+                        		<a class="ui label" href="/tag/{{tag.id }}">{{tag.name }}</a>
+                        	{% endfor %}
+						</div>		
+					</div>
+
+				</div>
+			</div>	
+		</div>
+	</div>
+	<!--  -->
+		
+	<div class="album comments">
+		<div class="container">
+			<div class="row">
+				<div class="span8">
+					<div class="ui comments" id="comments">
+		
+					  <div id="replyarea">
+							  <form class="ui reply form" id="replyform">
+							    <div class="field">
+							      <textarea id="replycontent"></textarea>
+							    </div>
+								<div class="ui tiny blue button" id="replybtn">
+								  评论
+								</div>							    
+							  </form>								
+					  </div>
+
+
+                            {% include "comment/index.html" %}
+
+
+					  <!-- comment list -->
+					</div>
+					<!-- end comment -->
+				</div>
+			</div>
+		</div>
+	</div>	
+	<script>
+	$(document).ready(function(){
+		var first_img_id = $('#imgbox img:first').attr('id').split('_')[2];
+		$('meta[name=id]').attr('content', first_img_id);
+		
+		$('#mainimg').attr('src', $('#imgbox img:first').attr('src').split('?')[0]);
+		
+		$('#imgbox img').click(function() {
+			var src = $(this).attr('src').split('?')[0];
+			var img_id = $(this).attr('id').split('_')[2];
+			$('#mainimg').attr('src', src);
+			$('meta[name=id]').attr('content', img_id);
+			
+			$.ajax({
+				url: basePath + '/comment/photo/'+img_id,
+				type: 'GET',
+			})
+			.success(function(data){
+				$('#commentList').remove();
+				$('#comments').append($('<code></code>').append(data).find('#commentList'));
+			});
+		});		
+	});
+
+	</script>
+</body>
+</html>

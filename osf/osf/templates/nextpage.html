@@ -1,0 +1,162 @@
+
+{% for feed in feeds %}
+
+    {% ifequal feed.object_type  dic.object_type_shortpost%}
+		<div class="event row" type="spost" object_type="{{feed.object_type }}" object_id="{{feed.object_id }}">
+		   <div class="label span2">
+		     <a href="/user/{{feed.user_id }}"><img src="{{feed.user_avatar }}"></a>
+		   </div>
+		   <div class="content span6">
+		     <div class="summary">
+		       <a href="/user/{{feed.user_id }}">{{feed.user_name }}</a> 说
+		       <div class="date">
+		         {{feed.ts }}
+		       </div>
+		     </div>
+		     <!-- end summary -->
+		     
+		     <div class="extra">                         
+		       {{feed.summary }}
+		     </div>
+		     <div class="meta">							                     	
+					<div class="actions">
+						<a class="comment">
+					    	<i class="comment outline icon"></i> {{feed.comment_count }}
+						</a>                           
+				        <a class="like">
+                            {% if feed.is_like %}
+					       		<i class="red heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+					       		<span>{{feed.like_count }}</span>
+					       	{% else %}
+					       		<i class="heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+					       		<span>{{feed.like_count }}</span>
+					       {% endif %}
+				    	</a>                         
+			   		</div>
+		 	</div>
+		 	<!-- end meta -->   
+		    <div class="comments-attach"></div>
+		    <!-- end comments-attach -->   
+		   </div>
+		   <!-- end content -->
+		 </div>   
+		 <!-- end event -->                 		
+	{% endifequal %}
+	
+<!-- new post -->
+    {% ifequal feed.object_type  dic.object_type_post %}
+ <div class="event row" type="post" object_type="{{feed.object_type }}" object_id="{{feed.object_id }}">
+   <div class="label span2">
+     <a href="/user/{{feed.user_id }}"><img src="{{feed.user_avatar }}"></a>
+   </div>
+   <div class="content span6">
+     <div class="summary">
+       <a href="/user/{{feed.user_id }}">{{feed.user_name }}</a> 发表了日志
+       <div class="date">
+         {{feed.ts }}
+       </div>
+     </div>
+     <div class="extra">
+     	<div class="postheader">
+        		<a href="/post/{{feed.object_id }}">{{feed.title }}</a>
+         </div>
+         {% if feed.content  %}
+   		 	<img src="{{img_base_url}}{{feed.content }}{{post_cover_thumbnail}}"/>" alt="" />
+   		{% endif %}
+   	</div>
+     <div class="extra">
+       
+       {{feed.summary }}
+     </div>
+     <div class="meta">
+         {% if feed.tags %}
+
+	       <div class="tags">
+		     	<i class="tag icon"></i>
+               {% for tag in feed.tags.all %}
+
+		     		<a href="/tag/{{tag.id }}">{{tag.name }}</a>
+		     	{% endfor %}
+		   </div>
+	   {% endif %}
+       <div class="actions">
+	 		<a class="comment">
+	            <i class="comment outline icon"></i> {{feed.comment_count }}
+	        </a>                           
+	        <a class="like">
+                {% if feed.is_like %}
+	        		<i class="red heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+	        		<span>{{feed.like_count }}</span>
+	        	{% else %}
+	        		<i class="heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+	        		<span>{{feed.like_count }}</span>
+	        	{% endif %}
+	        </a>                       
+       </div>
+
+     </div>  
+     <!-- end meta --> 
+     <div class="comments-attach"></div>
+     <!-- end comments-attach -->                                            
+   </div>
+   <!-- end content -->
+
+ </div>                    	
+ {% endifequal %}
+ 
+ <!-- new album -->
+    {% ifequal feed.object_type  dic.object_type_album%}
+
+ <div class="event row" type="album" object_type="{{feed.object_type }}" object_id="{{feed.object_id }}">
+   <div class="label span2">
+     <a href="/user/{{feed.user_id }}"><img src="{{feed.user_avatar }}"></a>
+   </div>
+   <div class="content span6">
+     <div class="summary">
+       <a>{{feed.user_name }}</a> 上传了相册 <a href="/album/{{feed.object_id }} "></a>
+    <div class="date">
+      {{feed.ts }}
+    </div>                          
+     </div>
+     <div class="extra images">
+         {% for photo in feed.photos.all %}
+             <a href="/album/{{feed.object_id }}/photos"><img src="{{img_base_url}}{{ photo.key }}{{album_thumbnail }}" alt="" id="preview_photo_{{photo.id }}"></a>
+
+            {% endfor %}
+     </div>
+     <div class="extra">{{feed.summary }}</div>
+     <div class="meta">
+     {% if feed.tags  %}
+
+        <div class="tags">
+	      	<i class="tag icon"></i>
+         {% for tag in feed.tags.all %}
+	      		<a href="/tag/{{tag.id }}">{{tag.name }}</a>
+	      	{% endfor %}
+		</div> 
+		{% endif %}
+        <div class="actions">
+			<a class="comment">
+                    <i class="comment outline icon"></i> {{feed.comment_count }}
+        	</a>                           
+	        <a class="like">
+                {% if feed.is_like  %}
+
+	        		<i class="red heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+	        		<span>{{feed.like_count }}</span>
+	        	{% else %}
+	        		<i class="heart icon" author="{{feed.user_id }}" object_type={{feed.object_type }} object_id={{feed.object_id }}></i>
+	        		<span>{{feed.like_count }}</span>
+	        	{% endif %}
+	        </a>                          
+       </div>
+       <!-- end actions -->
+     </div>
+     <!-- end meta -->
+     <div class="comments-attach"></div>
+     <!-- end comments-attach -->   
+   </div>
+ </div>                    
+ {% endifequal %}
+ <!-- end album  -->
+{% endfor %}

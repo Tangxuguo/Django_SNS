@@ -1,0 +1,172 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>{{user.user_name }}</title>
+	{% if request.user.is_authenticated %}
+	<meta name="isLogin" content="true"/>
+    {% else %}
+        <meta name="isLogin" content="false"/>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+	<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+    
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/semantic.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/basic.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/code.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/comment.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/post.js"></script>
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/follow.js"></script>   
+  	<script type="text/javascript" src="{{ STATIC_URL }}js/login.js"></script>   	
+</head>
+<body>
+{% include "include/topbar.html" %}
+{% include "include/login_modal.html" %}
+  <div class="container">
+    <div class="row">  
+          <div class="span8">     
+          		<div class="ui feed">
+          			<h4 class="ui header">我的日志 (<a href="#"> 全部 </a>)</h4>
+                    {% for post in posts %}
+                    
+	          			<div class="ui divider"></div>
+	                    <div class="event">                    
+	                      <div class="content">
+	                        <div class="text">
+	                        	<div class="row">
+                                    {% if  post.cover %}
+	                        	
+	                        		<div class="span6">
+	                        	{% else %}
+	                        		<div class="span8">
+	                        	{% endif %}
+	                        		
+	                        			<h3 class="ui header">
+	                        				<a href="/post/{{post.id}}">{{post.title }}</a>
+	                        			</h3>
+                                <div class="metadata">
+	      <span class="date">{{post.ts }}</span>
+	    </div>
+	                        			<div>
+	                        				{{post.excerpt }}
+	                        			</div>
+	                        			<div class="postmeta">
+
+
+
+	                        			</div>
+	                        		</div>
+                                {% if post.cover %}
+	                        		
+		                        		<div class="span2">
+		                        			<img class="ui small image" src="{{img_base_url }}{{post.cover }}?imageView2/1/w/200/h/200" alt=""  />
+		                        		</div>
+	                        		{% endif %}
+	                        		
+	                        	</div>
+	                        </div>
+	                        <div class="meta">
+	                          <span style="float: left"> 
+	                        	<i class="tag icon"></i>
+                                  {% for tag in post.tags.all %}
+	                        	
+	                        		<a href="/tag/{{tag.id }}">{{tag.name }}</a>
+	                        	{% endfor %}
+	                          </span>
+	                          <span style="float: right">
+	                          <a class="like">
+		                            <i class="like icon"></i> {{post.like_count }}
+		                          </a>
+		                          <a class="share">
+		                            <i class="share alternate icon"></i> {{post.share_count }}
+		                          </a>   
+		                          <a class="comment">
+		                            <i class="comment outline icon"></i> {{post.comment_count }}
+		                          </a>
+							  </span>
+	                        </div>
+
+
+	                      </div>
+	                    </div>     <!-- end event -->  
+                    {% endfor %}
+
+          		
+          			<h4 class="ui header albumheader">我的相册 (<a href="#"> 全部 </a>)</h4>
+          			<div class="ui divider"></div>
+                    <div class="event">                    
+                      <div class="content">
+						<div class="ui four cards">
+                            {% for album in albums %}
+
+							  <div class="card">
+							    <a class="image" href="/album/{{album.id}}/photos">
+							      <img src="{{img_base_url}}{{album.cover }}?imageView2/1/w/200/h/200">
+							    </a>
+							    <div class="extra">
+							      {{album.album_desc }}
+							    </div>
+
+                              <div class="meta">
+	                          <span style="float: left">
+	                        	<i class="tag icon"></i>
+                                  {% for tag in album.tags.all %}
+
+	                        		<a href="/tag/{{tag.id }}">{{tag.name }}</a>
+	                        	{% endfor %}
+	                          </span>
+	                          <span style="float: right">
+	                          <a class="like">
+		                            <i class="like icon"></i> {{album.like_count }}
+		                          </a>
+		                          <a class="share">
+		                            <i class="share alternate icon"></i> {{album.share_count }}
+		                          </a>
+		                          <a class="comment">
+		                            <i class="comment outline icon"></i> {{album.comment_count }}
+		                          </a>
+							  </span>
+	                        </div>
+							  </div>						  						  
+						  {% endfor %}
+						</div>
+                      </div>
+                    </div>
+
+                <h4 class="ui header albumheader">我的状态 (<a href="#"> 全部 </a>)</h4>
+          			<div class="ui divider"></div>
+                    <div class="event">
+                      <div class="content">
+						<div class="text">
+                            {% for spost in sposts %}
+在 {{spost.ts }} 说:<br>
+							  <div class="summary">
+
+							      <p>{{spost.content }}</p>
+							  </div>
+						  {% endfor %}
+						</div>
+                      </div>
+                    </div>
+          			
+          	</div>     <!-- end feed --> 
+          </div> <!-- end span8 -->
+          
+          <div class="span4">
+          	<div id="rightside">
+                {% include "include/usercard.html" %}
+				
+            </div>           
+          </div>
+          <!-- end span4 -->
+     </div>
+     <!-- end row -->
+   </div>
+   <!-- end container -->
+
+</body>
+</html>

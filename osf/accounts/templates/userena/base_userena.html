@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap2.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/navbar.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/semantic.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css">
+
+    <script src="{{ STATIC_URL }}js/jquery.js"></script>
+    <script src="{{ STATIC_URL }}js/basic.js"></script>
+    <script src="{{ STATIC_URL }}js/code.js"></script>
+    <script src="{{ STATIC_URL }}js/login.js"></script>
+</head>
+<body>
+{% include "./include/topbar.html" %}
+<div class="container">
+    <div class="row">
+        <div class="span8 offset2">
+
+            {% block content %}
+
+{% endblock  %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
