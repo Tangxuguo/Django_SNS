@@ -6,7 +6,7 @@ Django SNS的灵感来自于[OSF](https://github.com/lvwangbeta/osf)，OSF是一
 
 前端所有代码来自OSF，目前只是重写了后端，尽量实现原来的功能
 
-OSF参考网站[http://osf.coding.io/](http://osf.coding.io/)
+OSF参考网站[http://osf.coding.io/welcome](http://osf.coding.io/welcome)
 
 ![welcome](doc/welcome.png)
 
@@ -35,15 +35,46 @@ Sketch文件下载:[osf_sketch](http://pan.baidu.com/s/1hq5zI1e)
 
 ## 技术选型 
 
-Django SNS 选择Django作为后端基础框架，实现RESTFull url，为实现尽可能的前后端分离，除首屏数据渲染外均通过Ajax+json形式更新前端，url设计与数据交互规范见 [url设计与数据交互说明](doc/url.md)并且借助Django REST framework实现了API接口访问
+Django SNS 选择Django作为后端基础框架，实现RESTFull url，为实现尽可能的前后端分离，除首屏数据渲染外均通过Ajax+json形式更新前端，url设计与数据交互规范见 [url设计与数据交互说明](doc/url.md)
 
-Django SNS 借助django-userena实现了用户系统
+
+Django SNS使用了South专门做数据库表结构自动迁移工作，初始化需要执行
+
+	py manage.py syncdb
+	py manage.py migrate
+
+如果需要添加其他的models
+第一次需要执行
+
+	py manage.py schemamigration app_name  --init
+以后改变模型后只要执行	
+
+	py manage.py schemamigration app_name  --auto
+	py manage.py migrate app_name
+	
+
+
+Django SNS 借助于Django REST framework实现了API接口访问
+
+Django SNS 借助django-userena实现了用户系统，包括登陆，注册，激活，头像，个性签名等功能
+初始化需要执行
+
+	py manage.py check_permissions
+	
+Django SNS 借助于django-grappelli和django filebrowser实现了美化后台界面和文件管理
+
 
 MySQL作为Django SNS的关系型数据库，除Feed之外的所有数据均由其存储，[参考OSF表设计](doc/osf_db.png)
 
-原则上你可以使用Redis或者Memcached，使用Django内置缓存系统接口，
-主要缓存用户信息、统计计数，同时存储用户的Feed信息流，设置了10分钟失效
+由于使用Django内置缓存系统接口，原则上你可以用Redis或者Memcached，这里使用Memcached，主要缓存用户信息、统计计数，同时存储用户的Feed信息流，设置了10分钟失效
+
+
 ## 配置
+
+    找到requirements.txt
+    输入下面命令完成python环境初始化
+    
+    	pip install -r requirements.txt
 
 	#qiniu
 
@@ -60,7 +91,7 @@ MySQL作为Django SNS的关系型数据库，除Feed之外的所有数据均由�
 
 ## License GPL
 
-Copyright (C) 2015 osf
+Copyright (C) 2015 Django SNS
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
