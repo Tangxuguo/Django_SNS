@@ -4,6 +4,7 @@ from django.db import models
 from tag.models import Tag
 from django.contrib.auth.models import  User
 # Create your models here.
+from django.db.models.signals import post_save
 
 class Photo (models.Model):
 	id = models.AutoField( primary_key = True )

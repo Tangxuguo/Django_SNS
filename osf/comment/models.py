@@ -12,3 +12,4 @@ class Comment (models.Model):
     content = models.TextField()
     parent = models.IntegerField()
     parent_author = models.ForeignKey( User,related_name='parent_author' )
+

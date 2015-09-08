@@ -2,11 +2,18 @@
 
 Django SNS的灵感来自于[OSF](https://github.com/lvwangbeta/osf)，OSF是一个的开放、自由、分享的内容社区类网站原型。拥有绝大多数的社交类网站、内容分享类、社区类、兴趣垂直类网站共同的特性，如多用户，内容的发布、评论、喜欢，消息传递，Feed流，标签分类等等。
 
-然而OSF是基于JAVA语言，这里参考OSF重新造了一个轮子，使用Django框架实现
+然而OSF是基于JAVA语言,Spring框架，这里参考OSF重新造了一个轮子，使用Django框架实现
 
-前端所有代码来自OSF，目前只是重写了后端，尽量实现原来的功能
+前端几乎所有代码来自OSF，目前只是重写了模板渲染，后端，尽量实现原来的功能
 
-OSF参考网站[http://osf.coding.io/welcome](http://osf.coding.io/welcome)
+
+原 OSF Java Spring版本[http://osf.coding.io/welcome](http://osf.coding.io/welcome)
+
+测试账号：osfdemo1@163.com/demo123456
+
+新轮子 ：Python Django 版本 [http://osf.peqiu.com](http://osf.peqiu.com)
+
+测试账号：root/123456
 
 ![welcome](doc/welcome.png)
 
@@ -33,10 +40,38 @@ Sketch文件下载:[osf_sketch](http://pan.baidu.com/s/1hq5zI1e)
 
 
 
-## 技术选型 
+## 安装部署
+
+ 
 
 Django SNS 选择Django作为后端基础框架，实现RESTFull url，为实现尽可能的前后端分离，除首屏数据渲染外均通过Ajax+json形式更新前端，url设计与数据交互规范见 [url设计与数据交互说明](doc/url.md)
 
+
+Centos7 x64  uWSGI + Nginx + MariaDB + Memcached
+
+安装数据库
+
+	sudo yum -y install mariadb-server mariadb-devel mariadb
+	sudo systemctl start mariadb.service
+	sudo systemctl enable mariadb.service
+	
+创建数据库
+
+	create database osf
+
+安装Memcached
+	
+	sudo yum install libmemcached-devel.x86_64
+
+启动Memcached并初始化
+
+	service memcached start -p 11211 -l 127.0.0.1 -d
+设置memcached 开机自动启动
+
+	chkconfig memcached on
+找到requirements.txt，输入下面命令完成python环境初始化
+    
+    pip install -r requirements.txt
 
 Django SNS使用了South专门做数据库表结构自动迁移工作，初始化需要执行
 
@@ -68,15 +103,6 @@ MySQL作为Django SNS的关系型数据库，除Feed之外的所有数据均由�
 
 由于使用Django内置缓存系统接口，原则上你可以用Redis或者Memcached，这里使用Memcached，主要缓存用户信息、统计计数，同时存储用户的Feed信息流，设置了10分钟失效
 
-
-## 配置
-
-    找到requirements.txt
-    输入下面命令完成python环境初始化
-    
-    	pip install -r requirements.txt
-
-	#qiniu
 
 
 ## 后续版本计划

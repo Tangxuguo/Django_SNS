@@ -7,7 +7,8 @@ from django.core.cache import cache
 from album.models import *
 from notification.models import *
 from follow.models import *
-
+from post.models import *
+from spost.models import *
 class Event (models.Model):
     id = models.AutoField( primary_key = True )
     object_type = models.IntegerField(default=0  )
@@ -85,4 +86,19 @@ def toEvent(object_type, obj):
 def getFeeds(user_id):
     feeds_event=cache.get("feed:user:"+str(user_id),[])
     feeds = Event.objects.filter(id__in=feeds_event).order_by("-ts")
+    for feed in feeds.all():
+        if feed.object_type == Dic.OBJECT_TYPE_POST:
+            t = Post.objects.get(pk=feed.object_id)
+            feed.like_count = t.like_count
+            feed.comment_count = t.comment_count
+            print feed.like_count,feed.comment_count
+        if feed.object_type == Dic.OBJECT_TYPE_ALBUM:
+            t = Album.objects.get(pk=feed.object_id)
+            feed.like_count = t.like_count
+            feed.comment_count = t.comment_count
+        if feed.object_type == Dic.OBJECT_TYPE_SHORTPOST:
+            t = ShortPost.objects.get(pk=feed.object_id)
+            feed.like_count = t.like_count
+            feed.comment_count = t.comment_count
+        feed.save()
     return feeds

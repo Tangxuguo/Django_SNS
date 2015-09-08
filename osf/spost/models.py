@@ -1,6 +1,7 @@
 from django.db import models
 from post.models import *
 # Create your models here.
+from django.db.models.signals import post_save
 
 class ShortPost (models.Model):
     id = models.AutoField( primary_key = True )
