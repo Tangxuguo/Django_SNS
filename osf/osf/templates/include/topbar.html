@@ -11,8 +11,12 @@
 {#	      <ul class="nav navbar-nav">#}
 {#	        <li class="active"><a href="/explore">探索</a></li>#}
 {#	      </ul>#}
-        <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav">
+              {% if request.user.is_authenticated %}
 	        <li class="active"><a href="/user/{{ request.user.id }}">主页</a></li>
+               	{% else %}
+		        <li><a href="/welcome">介绍</a></li>
+            {% endif %}
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	      	{% if request.user.is_authenticated %}

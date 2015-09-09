@@ -51,7 +51,7 @@ def create_comment(request):
         object_author = User.objects.get(pk=object_author_id)
         if parent>0:
             # parent comment author
-            parent_author = get_object_or_404(Comment,pk=parent).author
+            parent_author = get_object_or_404(Comment,pk=parent).author.id
             comment = Comment.objects.create(object_type=object_type, object_id=object_id,content=content,parent=parent,author=author,parent_author=object_author)
             notification = Notification.objects.create(notify_type = Dic.NOTIFY_TYPE_COMMENT,
                                      notify_id=comment.id,

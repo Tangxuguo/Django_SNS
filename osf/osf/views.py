@@ -77,7 +77,7 @@ def user_index(request,id):
     notifications = get_all_notifications(request.user.id)
     follower = Follow.objects.filter(followee = u).count()
     following = Follow.objects.filter(follower = u).count()
-    spost = Post.objects.filter(author = u.id).count()
+    spost = ShortPost.objects.filter(author = u.id).count()
     counter = {'follower':follower,'following':following,'spost':spost}
 
     if request.user.is_authenticated():
