@@ -67,8 +67,7 @@ $(document).ready(function(){
 			data: {object_type: commentObjectType,
 				   object_id: commentObjectID,
 				   content: commentContent,
-				   parent: commentParent,
-				   csrfmiddlewaretoken: getCookie('csrftoken')}
+				   parent: commentParent}
 		})
 		.success(function(data) {
 			var status = data.status;

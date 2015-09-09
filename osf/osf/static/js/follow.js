@@ -19,8 +19,7 @@ $(document).ready(function(){
 			url: url,
 			type: 'POST',
 			dataType: 'json',
-			data: {param1: 'value1',
-			csrfmiddlewaretoken: getCookie('csrftoken')},
+			data: {param1: 'value1'},
 		})
 		.done(function(data) {
 			if(SUCCESS_FOLLOW == data.status) {

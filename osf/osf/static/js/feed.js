@@ -37,8 +37,7 @@
 			data: {object_type: comment_object_type,
 				   object_id: comment_object_id,
 				   content: comment_content,
-				   parent:comment_parent==null?0:comment_parent,
-				   csrfmiddlewaretoken: getCookie('csrftoken')
+				   parent:comment_parent==null?0:comment_parent
 				   }
 		})
 		.success(function(data){

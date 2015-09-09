@@ -7,8 +7,7 @@ $(document).ready(function(){
 			type: 'POST',
 			dataType: 'json',
 			data: {
-			       content: content,
-				   csrfmiddlewaretoken: getCookie('csrftoken')
+			       content: content
 			   }
 		})
 		.success(function(data) {

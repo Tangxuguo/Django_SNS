@@ -37,8 +37,7 @@ $(document).ready(function(){
 			data:{
 				author:author,
 				object_type: object_type,
-				object_id: object_id,
-				csrfmiddlewaretoken: getCookie('csrftoken')
+				object_id: object_id
 			}
 		})
 		.success(function(data){

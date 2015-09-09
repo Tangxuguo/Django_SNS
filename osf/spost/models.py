@@ -21,3 +21,18 @@ class ShortPost (models.Model):
     tags = models.ManyToManyField( Tag,)
     album = models.IntegerField(default=0)
     cover = models.URLField(blank=True,)
+
+def update_comment_on_spost(sender, instance, created, **kwargs):
+    if created:
+        if instance.object_type == Dic.OBJECT_TYPE_SHORTPOST:
+            t = ShortPost.objects.get(pk=instance.object_id)
+            t.comment_count += 1
+            t.save()
+def update_like_on_spost(sender, instance, created, **kwargs):
+    if created:
+        if instance.object_type == Dic.OBJECT_TYPE_SHORTPOST:
+            t = ShortPost.objects.get(pk=instance.object_id)
+            t.like_count += 1
+            t.save()
+post_save.connect(update_comment_on_spost, sender=Comment)
+post_save.connect(update_like_on_spost, sender=Like)

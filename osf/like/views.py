@@ -17,7 +17,10 @@ import json
 # Create your views here.
 def dolike(request):
     if request.method == 'POST':
-        author = request.POST['author']
+        try:
+            author = request.POST['author']
+        except:
+            author = request.user.id
         object_type = int(request.POST['object_type'])
         object_id = request.POST['object_id']
         like,created = Like.objects.get_or_create(user_id=author,object_type = object_type,object_id = object_id)
@@ -28,9 +31,7 @@ def dolike(request):
         if object_type == Dic.OBJECT_TYPE_ALBUM:
             object_title = Album.objects.get(pk=object_id).album_title
         if object_type == Dic.OBJECT_TYPE_SHORTPOST:
-            print "haha"
             object_title = ShortPost.objects.get(pk=object_id).content
-        print object_title
         Notification.objects.create(notify_type = Dic.NOTIFY_TYPE_LIKE,
                                      notify_id=0,
                                      object_type=object_type,

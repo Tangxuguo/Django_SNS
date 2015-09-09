@@ -8,6 +8,8 @@ from django.db.models.signals import post_save
 from comment.models import *
 from like.models import *
 
+from notification.models import *
+
 class Post (models.Model):
     id = models.AutoField( primary_key = True )
     author = models.IntegerField()
@@ -29,13 +31,15 @@ class Post (models.Model):
 
 def update_comment_on_post(sender, instance, created, **kwargs):
     if created:
-        t = Post.objects.get(pk=instance.object_id)
-        t.comment_count += 1
-        t.save()
+        if instance.object_type == Dic.OBJECT_TYPE_POST:
+            t = Post.objects.get(pk=instance.object_id)
+            t.comment_count += 1
+            t.save()
 def update_like_on_post(sender, instance, created, **kwargs):
     if created:
-        t = Post.objects.get(pk=instance.object_id)
-        t.like_count += 1
-        t.save()
+        if instance.object_type == Dic.OBJECT_TYPE_POST:
+            t = Post.objects.get(pk=instance.object_id)
+            t.like_count += 1
+            t.save()
 post_save.connect(update_comment_on_post, sender=Comment)
 post_save.connect(update_like_on_post, sender=Like)

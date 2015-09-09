@@ -15,10 +15,10 @@ $(document).ready(function(){
 		$('#password').parent('div.field:first').removeClass('error');
 
 		$.ajax({
-			url: basePath+'/account/login',
+			url: basePath+'/accounts/signin/',
 			type: 'POST',
 			dataType: 'json',
-			data: {email: email,
+			data: {identification: email,
 				   password: password},
 		})
 		.success(function(data) {
@@ -72,7 +72,7 @@ $(document).ready(function(){
 
 	
 	$('#registerbtn').live('click', function(){
-		self.location = basePath + '/account/register';
+		self.location = basePath + '/accounts/signup';
 	});
 
 
