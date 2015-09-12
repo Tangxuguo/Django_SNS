@@ -15,7 +15,6 @@ Django SNS的灵感来自于[OSF](https://github.com/lvwangbeta/osf)，OSF是一
 
 测试账号：root/123456
 
-![welcome](doc/welcome.png)
 
 ## 目前主要功能 
 
